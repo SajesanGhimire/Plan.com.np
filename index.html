@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!--=============== REMIXICONS ===============-->
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Raleway:200,400,800' rel='stylesheet' type='text/css'><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel='stylesheet' href='https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/css/demo.css'><link rel="stylesheet" href="./style.css">
+
+
+        <!--=============== CSS ===============-->
+        <link rel="stylesheet" href="assets/css/styles.css">
+
+        <title>Plan Ghimire</title>
+<style>
+button {
+  font-size: 18px;
+  font-weight: 400;
+  color: #fff;
+  padding: 14px 22px;
+  border: none;
+  background: #4070f4;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #265df2;
+}
+button.show-modal,
+.modal-box {
+  position: fixed;
+  left: 50%;
+  top: 85%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+section.active .show-modal {
+  display: none;
+}
+.overlay {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  pointer-events: none;
+}
+section.active .overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+.modal-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 380px;
+  width: 100%;
+  padding: 30px 20px;
+  border-radius: 24px;
+  background-color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  transform: translate(-50%, -50%) scale(1.2);
+}
+section.active .modal-box {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+.modal-box i {
+  font-size: 70px;
+  color: #4070f4;
+}
+.modal-box h2 {
+  margin-top: 20px;
+  font-size: 25px;
+  font-weight: 500;
+  color: #333;
+}
+.modal-box h3 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+  text-align: center;
+}
+.modal-box .buttons {
+  margin-top: 25px;
+}
+.modal-box button {
+  font-size: 14px;
+  padding: 6px 12px;
+  margin: 0 10px;
+}/* Header */
+.large-header {
+  position: relative;
+  width: 100%;
+  background: #333;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center center;
+  z-index: 1;
+}
+#large-header {
+  background-image: url("https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/img/demo-1-bg.jpg");
+}
+.container {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  color: #f9f1e9;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+ width: 100%;
+  -webkit-transform: translate3d(-50%, -50%, 0);
+  transform: translate3d(-50%, -50%, 0);
+}
+.demo-1 .main-title {
+  text-transform: uppercase;
+  font-size: 4.2em;
+  letter-spacing: 0.1em;
+}
+.main-title .thin {
+  font-weight: 200;
+}
+@media only screen and (max-width: 768px) {
+  .demo-1 .main-title {
+    font-size: 3em;
+  }
+}
+.treat-button {
+  font-family: 'Fascinate Inline', cursive;
+  font-size: 2vmin;
+  appearance: none;
+  background: linear-gradient(to bottom, #F46001, #E14802);
+  border: none;
+  color: #FFF;
+  border-radius: 2em;
+  padding: .6em 1.5em;
+  overflow: hidden;
+  user-select: none;
+  cursor: pointer;
+  z-index: 1;
+  box-shadow: 0 0 1em rgba(white, .2);
+  transition: transform .1s cubic-bezier(.5, 0, .5, 1),
+    box-shadow .2s;
+  
+  &:hover {
+    box-shadow: 0 0 2em rgba(white, .3);
+  }
+
+  outline: none;
+
+  &:active {
+    transform: scale(0.8) translateY(10%);
+    transition-timing-function: cubic-bezier(.5, 0, .5, 1);
+  }
+}
+
+.treat {
+  --scale-x: 0;
+  --scale-y: 0;
+  pointer-events: none;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: calc(50% - .5rem);
+  border-radius: 50%;
+  width: 1em;
+  height: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 5vmin;
+  transform: 
+    translate(
+      calc( var(--x) * 1px ), 
+      calc( var(--y) * 1px )
+    ) 
+    translate(-50%, -50%);
+  pointer-events: none;
+  animation: 
+    treat-enter .1s ease-in backwards, 
+    treat-exit 300ms linear 
+    calc( (var(--lifetime, 3000) * 1ms) - 300ms) 
+    forwards;
+
+  @keyframes treat-enter {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes treat-exit {
+    to {
+      opacity: 0;
+    }
+  }
+  
+  .inner {
+    animation: inner-rotate .6s linear infinite;
+    transform: rotate( 
+      calc(-1turn * var(--direction) )
+    ); 
+    @keyframes inner-rotate {
+      to { 
+        transform: none;
+      } 
+    }
+  }
+}
+
+</style>
+
+    </head>
+    <body>
+<!-- partial:index.partial.html -->
+<div id="large-header" class="large-header">
+  <canvas id="demo-canvas"></canvas>
+        <div class="container">
+            <div class="card">
+                <div class="card__border">
+                    <img src="./assets/img/plan.jpg" alt="card image" class="card__img">
+                </div>
+
+                <h3 class="card__name">Plan Ghimire</h3>
+<div class="treat-wrapper">
+  <button class="treat-button" > 
+                            Web Designer</button>
+</div>
+                <span class="card__profession"></span>
+
+                <div class="card__social" id="card-social">
+                    <div class="card__social-control">
+                        <!-- Toggle button -->
+                        <div class="card__social-toggle" id="card-toggle">
+                            <i class="ri-add-line"></i>
+                        </div>
+    
+                        <span class="card__social-text">My social networks</span>
+    
+                        <!-- Card social -->
+                        <ul class="card__social-list">
+                            <a href="https://www.facebook.com/fb.planghimire" target="_blank" class="card__social-link">
+                                <i class="ri-facebook-line"></i>
+                            </a>
+    
+                            <a href="https://www.instagram.com/PlanGhimire" target="_blank" class="card__social-link">
+                                <i class="ri-instagram-line"></i>
+                            </a>
+    
+                            <a href="https://twitter.com/PlanGhimire1" target="_blank" class="card__social-link">
+                                <i class="ri-twitter-line"></i>
+                            </a>
+                        </ul>
+                    </div>
+                </div>
+ 
+
+
+<script src="https://codepen.io/shshaw/pen/QmZYMG.js"></script>
+            </div>
+        </div>
+<section>
+      <button class="show-modal">Want To Know More </button>
+      <span class="overlay"></span>
+      <div class="modal-box">
+        <i class="fa-regular fa-circle-check"></i>
+        <h2></h2>
+        <h3>"Creative Web & App Designer from Nepal adept at transforming complex problems into simple, intuitive designs, crafting functional, visually appealing websites with a personal touch."</h3>
+        <div class="buttons">
+          <button class="close-btn">Close</button>
+          <button onclick="location.href='https://www.plan.com.np/';">View Portfolio</button>
+<button onclick="location.href='https://www.plan.com.np/';">View CV</button>
+        </div>
+      </div>
+    </section>
+</div>
+ 
+    <script>
+
+      const section = document.querySelector("section"),
+        overlay = document.querySelector(".overlay"),
+        showBtn = document.querySelector(".show-modal"),
+        closeBtn = document.querySelector(".close-btn");
+      showBtn.addEventListener("click", () => section.classList.add("active"));
+      overlay.addEventListener("click", () =>
+        section.classList.remove("active")
+      );
+      closeBtn.addEventListener("click", () =>
+        section.classList.remove("active")
+      );
+    </script>
+<!-- partial -->
+  <script src='https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/js/EasePack.min.js'></script>
+<script src='https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/js/rAF.js'></script>
+<script src='https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/js/TweenLite.min.js'></script><script  src="./script.js"></script>
+
+        <!--=============== MAIN JS ===============-->
+        <script src="assets/js/main.js"></script>
+<script>
+
+function togglePopup(){
+  document.getElementById("popup-1").classList.toggle("active");
+}
+
+(function () {
+  var width,
+    height,
+    largeHeader,
+    canvas,
+    ctx,
+    points,
+    target,
+    animateHeader = true;
+
+  // Main
+  initHeader();
+  initAnimation();
+  addListeners();
+
+  function initHeader() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    target = { x: width / 2, y: height / 2 };
+
+    largeHeader = document.getElementById("large-header");
+    largeHeader.style.height = height + "px";
+
+    canvas = document.getElementById("demo-canvas");
+    canvas.width = width;
+    canvas.height = height;
+    ctx = canvas.getContext("2d");
+
+    // create points
+    points = [];
+    for (var x = 0; x < width; x = x + width / 20) {
+      for (var y = 0; y < height; y = y + height / 20) {
+        var px = x + (Math.random() * width) / 20;
+        var py = y + (Math.random() * height) / 20;
+        var p = { x: px, originX: px, y: py, originY: py };
+        points.push(p);
+      }
+    }
+
+    // for each point find the 5 closest points
+    for (var i = 0; i < points.length; i++) {
+      var closest = [];
+      var p1 = points[i];
+      for (var j = 0; j < points.length; j++) {
+        var p2 = points[j];
+        if (!(p1 == p2)) {
+          var placed = false;
+          for (var k = 0; k < 5; k++) {
+            if (!placed) {
+              if (closest[k] == undefined) {
+                closest[k] = p2;
+                placed = true;
+              }
+            }
+          }
+
+          for (var k = 0; k < 5; k++) {
+            if (!placed) {
+              if (getDistance(p1, p2) < getDistance(p1, closest[k])) {
+                closest[k] = p2;
+                placed = true;
+              }
+            }
+          }
+        }
+      }
+      p1.closest = closest;
+    }
+
+    // assign a circle to each point
+    for (var i in points) {
+      var c = new Circle(
+        points[i],
+        2 + Math.random() * 2,
+        "rgba(255,255,255,0.3)"
+      );
+      points[i].circle = c;
+    }
+  }
+
+  // Event handling
+  function addListeners() {
+    if (!("ontouchstart" in window)) {
+      window.addEventListener("mousemove", mouseMove);
+    }
+    window.addEventListener("scroll", scrollCheck);
+    window.addEventListener("resize", resize);
+  }
+
+  function mouseMove(e) {
+    var posx = (posy = 0);
+    if (e.pageX || e.pageY) {
+      posx = e.pageX;
+      posy = e.pageY;
+    } else if (e.clientX || e.clientY) {
+      posx =
+        e.clientX +
+        document.body.scrollLeft +
+        document.documentElement.scrollLeft;
+      posy =
+        e.clientY +
+        document.body.scrollTop +
+        document.documentElement.scrollTop;
+    }
+    target.x = posx;
+    target.y = posy;
+  }
+
+  function scrollCheck() {
+    if (document.body.scrollTop > height) animateHeader = false;
+    else animateHeader = true;
+  }
+
+  function resize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    largeHeader.style.height = height + "px";
+    canvas.width = width;
+    canvas.height = height;
+  }
+
+  // animation
+  function initAnimation() {
+    animate();
+    for (var i in points) {
+      shiftPoint(points[i]);
+    }
+  }
+
+  function animate() {
+    if (animateHeader) {
+      ctx.clearRect(0, 0, width, height);
+      for (var i in points) {
+        // detect points in range
+        if (Math.abs(getDistance(target, points[i])) < 4000) {
+          points[i].active = 0.3;
+          points[i].circle.active = 0.6;
+        } else if (Math.abs(getDistance(target, points[i])) < 20000) {
+          points[i].active = 0.1;
+          points[i].circle.active = 0.3;
+        } else if (Math.abs(getDistance(target, points[i])) < 40000) {
+          points[i].active = 0.02;
+          points[i].circle.active = 0.1;
+        } else {
+          points[i].active = 0;
+          points[i].circle.active = 0;
+        }
+
+        drawLines(points[i]);
+        points[i].circle.draw();
+      }
+    }
+    requestAnimationFrame(animate);
+  }
+
+  function shiftPoint(p) {
+    TweenLite.to(p, 1 + 1 * Math.random(), {
+      x: p.originX - 50 + Math.random() * 100,
+      y: p.originY - 50 + Math.random() * 100,
+      ease: Circ.easeInOut,
+      onComplete: function () {
+        shiftPoint(p);
+      }
+    });
+  }
+
+  // Canvas manipulation
+  function drawLines(p) {
+    if (!p.active) return;
+    for (var i in p.closest) {
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y);
+      ctx.lineTo(p.closest[i].x, p.closest[i].y);
+      ctx.strokeStyle = "rgba(156,217,249," + p.active + ")";
+      ctx.stroke();
+    }
+  }
+
+  function Circle(pos, rad, color) {
+    var _this = this;
+
+    // constructor
+    (function () {
+      _this.pos = pos || null;
+      _this.radius = rad || null;
+      _this.color = color || null;
+    })();
+
+    this.draw = function () {
+      if (!_this.active) return;
+      ctx.beginPath();
+      ctx.arc(_this.pos.x, _this.pos.y, _this.radius, 0, 2 * Math.PI, false);
+      ctx.fillStyle = "rgba(156,217,249," + _this.active + ")";
+      ctx.fill();
+    };
+  }
+
+  // Util
+  function getDistance(p1, p2) {
+    return Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2);
+  }
+})();
+console.clear();
+
+let width = window.innerWidth;
+let height = window.innerHeight;
+const body = document.body;
+
+const elButton = document.querySelector(".treat-button");
+const elWrapper = document.querySelector(".treat-wrapper");
+
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+const treatmojis = ["🍬", "🍫", "🍭", "🍡", "🍩", "🍪", "🍒"];
+const treats = [];
+const radius = 15;
+
+const Cd = 0.47; // Dimensionless
+const rho = 1.22; // kg / m^3
+const A = Math.PI * radius * radius / 10000; // m^2
+const ag = 9.81; // m / s^2
+const frameRate = 1 / 60;
+
+function createTreat() /* create a treat */ {
+  const vx = getRandomArbitrary(-10, 10); // x velocity
+  const vy = getRandomArbitrary(-10, 1);  // y velocity
+  
+  const el = document.createElement("div");
+  el.className = "treat";
+
+  const inner = document.createElement("span");
+  inner.className = "inner";
+  inner.innerText = treatmojis[getRandomInt(0, treatmojis.length - 1)];
+  el.appendChild(inner);
+  
+  elWrapper.appendChild(el);
+
+  const rect = el.getBoundingClientRect();
+
+  const lifetime = getRandomArbitrary(2000, 3000);
+
+  el.style.setProperty("--lifetime", lifetime);
+
+  const treat = {
+    el,
+    absolutePosition: { x: rect.left, y: rect.top },
+    position: { x: rect.left, y: rect.top },
+    velocity: { x: vx, y: vy },
+    mass: 0.1, //kg
+    radius: el.offsetWidth, // 1px = 1cm
+    restitution: -.7,
+    
+    lifetime,
+    direction: vx > 0 ? 1 : -1,
+
+    animating: true,
+
+    remove() {
+      this.animating = false;
+      this.el.parentNode.removeChild(this.el);
+    },
+
+    animate() {
+      const treat = this;
+      let Fx =
+        -0.5 *
+        Cd *
+        A *
+        rho *
+        treat.velocity.x *
+        treat.velocity.x *
+        treat.velocity.x /
+        Math.abs(treat.velocity.x);
+      let Fy =
+        -0.5 *
+        Cd *
+        A *
+        rho *
+        treat.velocity.y *
+        treat.velocity.y *
+        treat.velocity.y /
+        Math.abs(treat.velocity.y);
+
+      Fx = isNaN(Fx) ? 0 : Fx;
+      Fy = isNaN(Fy) ? 0 : Fy;
+
+      // Calculate acceleration ( F = ma )
+      var ax = Fx / treat.mass;
+      var ay = ag + Fy / treat.mass;
+      // Integrate to get velocity
+      treat.velocity.x += ax * frameRate;
+      treat.velocity.y += ay * frameRate;
+
+      // Integrate to get position
+      treat.position.x += treat.velocity.x * frameRate * 100;
+      treat.position.y += treat.velocity.y * frameRate * 100;
+      
+      treat.checkBounds();
+      treat.update();
+    },
+    
+    checkBounds() {
+
+      if (treat.position.y > height - treat.radius) {
+        treat.velocity.y *= treat.restitution;
+        treat.position.y = height - treat.radius;
+      }
+      if (treat.position.x > width - treat.radius) {
+        treat.velocity.x *= treat.restitution;
+        treat.position.x = width - treat.radius;
+        treat.direction = -1;
+      }
+      if (treat.position.x < treat.radius) {
+        treat.velocity.x *= treat.restitution;
+        treat.position.x = treat.radius;
+        treat.direction = 1;
+      }
+
+    },
+
+    update() {
+      const relX = this.position.x - this.absolutePosition.x;
+      const relY = this.position.y - this.absolutePosition.y;
+
+      this.el.style.setProperty("--x", relX);
+      this.el.style.setProperty("--y", relY);
+      this.el.style.setProperty("--direction", this.direction);
+    }
+  };
+
+  setTimeout(() => {
+    treat.remove();
+  }, lifetime);
+
+  return treat;
+}
+
+
+function animationLoop() {
+  var i = treats.length;
+  while (i--) {
+    treats[i].animate();
+
+    if (!treats[i].animating) {
+      treats.splice(i, 1);
+    }
+  }
+
+  requestAnimationFrame(animationLoop);
+}
+
+animationLoop();
+
+function addTreats() {
+  //cancelAnimationFrame(frame);
+  if (treats.length > 40) {
+    return;
+  }
+  for (let i = 0; i < 10; i++) {
+    treats.push(createTreat());
+  }
+}
+
+elButton.addEventListener("click", addTreats);
+elButton.click();
+
+window.addEventListener("resize", () => {
+  width = window.innerWidth;
+  height = window.innerHeight;
+});
+
+
+</script>
+    </body>
+</html>
